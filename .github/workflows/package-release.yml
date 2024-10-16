@@ -1,0 +1,47 @@
+name: Package Release
+on:
+  push:
+    branches:
+      - "releases/**"
+  workflow_dispatch:
+
+jobs:
+  package-release:
+    strategy:
+      matrix:
+        platform:
+          - requirements: win-linux-cuda.txt
+            os: windows-latest
+            filename: windows-cuda
+          - requirements: mac-mps-cpu.txt
+            os: macos-14
+            filename: macos-arm
+    runs-on: ${{ matrix.platform.os }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: meshgen
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        shell: bash
+        run: "python -m pip install -r requirements/${{ matrix.platform.requirements }} --no-cache-dir --target .python_dependencies"
+        working-directory: meshgen
+      
+      - name: Archive release
+        uses: thedoctor0/zip-release@main
+        with:
+          type: zip
+          filename: meshgen-${{ matrix.platform.filename }}.zip
+          exclusions: '*.git*'
+      
+      - name: Archive and upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: meshgen-${{ matrix.platform.filename }}
+          path: meshgen-${{ matrix.platform.filename }}.zip
