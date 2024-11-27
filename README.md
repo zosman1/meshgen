@@ -1,3 +1,9 @@
+# MeshGen
+
+A Blender addon for generating meshes with AI.
+
+![meshgen](docs/meshgen.gif)
+
 This initial release contains a minimal integration of [LLaMa-Mesh](https://github.com/nv-tlabs/LLaMA-Mesh) in Blender.
 
 # Installation
