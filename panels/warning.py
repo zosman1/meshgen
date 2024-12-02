@@ -1,6 +1,6 @@
 import bpy
 
-from ..generator.generator import Generator
+from ..generator import Generator
 
 
 class MESHGEN_PT_Warning(bpy.types.Panel):

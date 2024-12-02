@@ -1,6 +1,6 @@
 import bpy
 
-from ..generator.generator import Generator
+from ..generator import Generator
 
 
 class MESHGEN_PT_Settings(bpy.types.Panel):
@@ -21,4 +21,3 @@ class MESHGEN_PT_Settings(bpy.types.Panel):
         props = context.scene.meshgen_props
 
         layout.prop(props, "temperature")
-        layout.prop(props, "max_new_tokens")

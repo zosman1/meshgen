@@ -1,6 +1,6 @@
 import bpy
 
-from ..generator.generator import Generator
+from ..generator import Generator
 from ..operators import (
     MESHGEN_OT_GenerateMesh,
     MESHGEN_OT_CancelGeneration,
