@@ -37,11 +37,6 @@ jobs:
         run: "python -m pip install -r requirements/${{ matrix.platform.requirements }} --only-binary=llama_cpp_python --no-cache-dir --target .python_dependencies"
         working-directory: meshgen
       
-      - name: Bundle models
-        shell: bash
-        run: "python scripts/bundle_models.py"
-        working-directory: meshgen
-      
       - name: Archive release
         uses: thedoctor0/zip-release@main
         with:
