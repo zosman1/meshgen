@@ -84,6 +84,14 @@ def load_dependencies():
             os.add_dll_directory(mkl_bin)
 
 
+def check_cuda():
+    try:
+        subprocess.check_output(["nvcc", "--version"])
+        return True
+    except Exception:
+        return False
+
+
 def install_and_load_dependencies():
     install_pip()
     install_devel()
@@ -94,15 +102,13 @@ def install_and_load_dependencies():
         load_dependencies()
         return
 
-    if sys.platform == "win32" or sys.platform == "linux":
-        requirements_file = absolute_path("./requirements/win-linux-cuda.txt")
-    elif sys.platform == "darwin":
-        requirements_file = absolute_path("./requirements/mac-mps-cpu.txt")
-    else:
-        raise RuntimeError(f"Unsupported platform: {sys.platform}")
-
     os.makedirs(dependencies_dir, exist_ok=True)
 
+    if (sys.platform == "win32" or sys.platform == "linux") and check_cuda():
+        requirements_file = "./requirements/cuda.txt"
+    else:
+        requirements_file = "./requirements/cpu.txt"
+    
     subprocess.run(
         [
             sys.executable,
@@ -143,9 +149,8 @@ class MESHGEN_OT_UninstallDependencies(bpy.types.Operator):
     bl_options = {"REGISTER", "INTERNAL"}
 
     def execute(self, context):
-        print(f"Uninstalling dependencies from {dependencies_dir}")
-
         dependencies_dir = absolute_path(".python_dependencies")
+        print(f"Uninstalling dependencies from {dependencies_dir}")
 
         for item in os.listdir(dependencies_dir):
             item_path = os.path.join(dependencies_dir, item)

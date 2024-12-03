@@ -1,7 +1,7 @@
 import bpy
 import sys
 
-from ..generator.generator import Generator
+from ..generator import Generator
 from ..utils import open_console
 
 

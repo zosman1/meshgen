@@ -1,10 +1,9 @@
 import bpy
 
-from .generator.generator import Generator
+from .generator import Generator
 from .operators.download_models import MESHGEN_OT_DownloadRequiredModels
 from .operators.install_dependencies import (MESHGEN_OT_InstallDependencies,
                                              MESHGEN_OT_UninstallDependencies)
-from .operators.load_generator import MESHGEN_OT_LoadGenerator
 
 
 class MeshGenPreferences(bpy.types.AddonPreferences):
